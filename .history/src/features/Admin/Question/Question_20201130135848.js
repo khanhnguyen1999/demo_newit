@@ -1,0 +1,23 @@
+import React,{useState} from 'react'
+import CreateQuestion from './CreateQuestion'
+import {Button} from 'react-bootstrap'
+import ListQuestion from './ListQuestion'
+
+const Question = ()=>{
+    const [toggle,setToggle]=useState(false)
+
+    const _handleToggle = ()=>{
+        setToggle(!toggle)
+    }
+    return (
+        <>
+            <Button className="d-block mb-4" type="button" onClick={_handleToggle} >Create Question</Button>
+            {
+                toggle?<CreateQuestion/>:null
+            }
+            <h2>Questions</h2>
+            <ListQuestion/>
+        </>
+    )
+}
+export default Question

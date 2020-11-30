@@ -23,6 +23,7 @@ const CreateQuestion = ()=>{
     const [tags,setTags]=useState([])
     const [formData,setFormData]=useState([])
     const [chooseTags,setChooseTags]=useState([])
+    const [valueSelect,setValueSelect]=useState(0)
 
     const _handleOnChange = (value)=>{
         setSelectValue(value)
@@ -47,6 +48,9 @@ const CreateQuestion = ()=>{
     };
     }
 
+    const _handleLOD = (e)=>{
+        setValueSelect(e.target.value)
+    }
 
     const _optionQuestion = ()=>{
         return (
@@ -64,32 +68,51 @@ const CreateQuestion = ()=>{
     const _onSubmitEssay = (e)=>{
         e.preventDefault()
         const data = new FormData(e.currentTarget)
+        data.append("type","Essay")
+        data.append("id_tag",chooseTags)
+        data.append("correct_answer",data.get("correct_answer"))
+        data.append("LOD",data.get("LOD"))
         data.append("question",data.get("question"))
         data.append("answerA",data.get("answerA"))
         data.append("answerB",data.get("answerB"))
         data.append("answerC",data.get("answerC"))
         data.append("answerD",data.get("answerD"))
-        data.append("type","Essay")
-        data.append("score",null)
-        data.append("id_tag",chooseTags)
-        data.append("correct_answer",data.get("correct_answer"))
-        data.append("LOD",data.get("LOD"))
-        createEssayQuestion(data)
+        var obj = {};
+        var formData = data;
+        for (var key of formData.keys()) {
+            obj[key] = formData.get(key);
+        }
+        createEssayQuestion(obj)
         .then(value=>
             {
                 setFormData(value)
-                // toast(data.message)
                 NotificationManager.success('Success message', 'Title here');
             }
         )
-        // console.log("data question ",data)
         setChooseTags([])
     }
-    console.log("done ",formData)
-    const _onSubmitMul = ()=>{
-        console.log("")
+    const _onSubmitMul = (e)=>{
+        e.preventDefault()
+        const data = new FormData(e.currentTarget)
+        data.append("type","Mul")
+        data.append("score",data.get("score"))
+        data.append("question",data.get("question"))
+        data.append("LOD",valueSelect)
+        data.append("time",data.get("time"))
+        var obj = {};
+        var formData = data;
+        for (var key of formData.keys()) {
+            obj[key] = formData.get(key);
+        }
+        createEssayQuestion(obj)
+        .then(value=>
+            {
+                setFormData(value)
+                NotificationManager.success('Success message', 'Title here');
+            }
+        )
+        setChooseTags([])
     }
-
     useEffect(()=>{
         getTags()
         .then(data=>{
@@ -117,40 +140,40 @@ const CreateQuestion = ()=>{
                         {children}
                     </Select>
                 </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Question Essay</Form.Label>
-                        <Input.TextArea name="question" type="text" placeholder="Essay Question..." />
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Answer A</Form.Label>
-                        <Input name="answerA" type="text" placeholder="Password" />
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Answer B</Form.Label>
-                        <Input name="answerB" type="text" placeholder="Password" />
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Answer C</Form.Label>
-                        <Input name="answerC" type="text" placeholder="Password" />
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Answer D</Form.Label>
-                        <Input name="answerD" type="text" placeholder="Password" />
-                    </Form.Group>
-                    <p>True Correct</p>
-                    <Select id="correct_answer" name="correct_answer" defaultValue="1" style={{ width: 150 }} onChange={_handleOnChangeAnswer}>
-                        <Select.Option value="1">Anwer A</Select.Option>
-                        <Select.Option value="2">Anwer B</Select.Option>
-                        <Select.Option value="3">Anwer C</Select.Option>
-                        <Select.Option value="4">Anwer D</Select.Option>
-                    </Select>
-                    <Form.Label>Level:</Form.Label>
-                    <Select id="LOD" name="LOD" defaultValue="1" style={{ width: 150 }} onChange={_handleOnChangeAnswer}>
-                        <Select.Option value="1">Level 1</Select.Option>
-                        <Select.Option value="2">Level 2</Select.Option>
-                        <Select.Option value="3">Level 3</Select.Option>
-                    </Select>
-                    <InputComponent type="submit" className="mt-3 ml-2" type="submit" text="Create Question"/>
+                <Form.Group>
+                    <Form.Label>Question Essay</Form.Label>
+                    <Input.TextArea name="question" type="text" placeholder="Essay Question..." />
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>Answer A</Form.Label>
+                    <Input name="answerA" type="text" placeholder="Password" />
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>Answer B</Form.Label>
+                    <Input name="answerB" type="text" placeholder="Password" />
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>Answer C</Form.Label>
+                    <Input name="answerC" type="text" placeholder="Password" />
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>Answer D</Form.Label>
+                    <Input name="answerD" type="text" placeholder="Password" />
+                </Form.Group>
+                <p>True Correct</p>
+                <Select id="correct_answer" name="correct_answer" defaultValue="1" style={{ width: 150 }} onChange={_handleOnChangeAnswer}>
+                    <Select.Option value="1">Anwer A</Select.Option>
+                    <Select.Option value="2">Anwer B</Select.Option>
+                    <Select.Option value="3">Anwer C</Select.Option>
+                    <Select.Option value="4">Anwer D</Select.Option>
+                </Select>
+                <Form.Label>Level:</Form.Label>
+                <Select id="LOD" name="LOD" defaultValue="1" style={{ width: 150 }} onChange={_handleOnChangeAnswer}>
+                    <Select.Option value="1">Level 1</Select.Option>
+                    <Select.Option value="2">Level 2</Select.Option>
+                    <Select.Option value="3">Level 3</Select.Option>
+                </Select>
+                <InputComponent type="submit" className="mt-3 ml-2" type="submit" text="Create Question"/>
             </Form>
             </>
         )
@@ -162,21 +185,35 @@ const CreateQuestion = ()=>{
             <>
             <Form onSubmit={_onSubmitMul}>
                 <Form.Group>
+                    <p>Tags:</p>
+                    <Select
+                        id="id_tag"
+                        name="id_tag"
+                        mode="multiple"
+                        placeholder="Please select"
+                        defaultValue={[]}
+                        onChange={handleChange}
+                        style={{ width: '100%' }}
+                    >
+                        {children}
+                    </Select>
+                </Form.Group>
+                <Form.Group>
                         <Form.Label>Question Mul</Form.Label>
-                        <Input.TextArea type="text" placeholder="Mul Question...." />
+                        <Input.TextArea name="question" type="text" placeholder="Mul Question...." />
                 </Form.Group>
                 <Form.Group>
                         <Form.Label>Timer</Form.Label>
-                        <TimePicker className="ml-3" defaultValue={moment('00:00', format)} format={format} />
+                        <TimePicker name="time" className="ml-3" defaultValue={moment('00:00', format)} format={format} />
                 </Form.Group>
-            </Form>
-            <Form.Label>Level:</Form.Label>
-                <Select defaultValue="1" style={{ width: 150 }} onChange={_handleOnChangeAnswer}>
+                <Form.Label>Level:</Form.Label>
+                <Select value={valueSelect} name="LOD" defaultValue="1" style={{ width: 150 }} onChange={_handleLOD}>
                     <Select.Option value="1">Level 1</Select.Option>
                     <Select.Option value="2">Level 2</Select.Option>
                     <Select.Option value="3">Level 3</Select.Option>
                 </Select>
-            <ButtonComponent className="mt-3 ml-2" type="submit" text="Create Question"/>
+                <InputComponent type="submit" className="mt-3 ml-2" type="submit" text="Create Question"/>
+            </Form>
             </>
         )
     }
