@@ -6,17 +6,18 @@ import { UserOutlined } from '@ant-design/icons';
 import LayoutComponent from './components/Layout'
 import CreateUser from './features/Admin/CreateUser'
 import LoadingComponent from './components/LoadingComponent'
-import ModalComponent from './components/ModalComponent'
 import {Container} from 'react-bootstrap'
 
 function App() {
-  const {isModal} = useContext(AppContext)
+
+  console.log("text ",test)
+  // console.log("modal ",isModal,getId)
   return (
     <>
     <LayoutComponent>
       <CreateUser/>
     </LayoutComponent>
-    {isModal?<ModalComponent/>:null}
+
     </>
   );
 }

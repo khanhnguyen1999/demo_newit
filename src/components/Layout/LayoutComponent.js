@@ -26,17 +26,22 @@ const LayoutComponent = ({children})=>{
                 <SubMenu key="sub1" icon={<UserOutlined />} title="Admin">
                     <Menu.Item key="1">
                         <Link to="/">
-                            Create User
+                            Users
                         </Link>    
                     </Menu.Item>
                     <Menu.Item key="2">
                         <Link to="/createquestion">
-                            Create Question
+                            Questions
                         </Link>  
                     </Menu.Item>
                     <Menu.Item key="3">
                         <Link to="/createtag">
-                            Create Tag
+                            Tags
+                        </Link>  
+                    </Menu.Item>
+                    <Menu.Item key="4">
+                        <Link to="/contest">
+                            Contests
                         </Link>  
                     </Menu.Item>
                 </SubMenu>

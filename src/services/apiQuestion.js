@@ -30,3 +30,18 @@ export const getAllQuestion = ()=>{
         console.log(err)
     })
 }   
+
+export const deleteQuestion = (id) =>{
+    return fetch(`${API}/questions/deletequestion/${id}`,{
+        method:"POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+        .then(res=>{
+            return res.json()
+        })
+        .catch(err=>{
+            console.log(err)
+        })
+}

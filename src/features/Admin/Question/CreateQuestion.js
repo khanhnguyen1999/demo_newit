@@ -50,7 +50,7 @@ const CreateQuestion = ()=>{
     return a1;    
     }
     function handleChange(e) {
-        console.log("e ",e)
+        console.log("e ",convert(e))
         setChooseTags(convert(e))
     }
     console.log("choose tag ",chooseTags)
@@ -77,7 +77,7 @@ const CreateQuestion = ()=>{
         const data = new FormData(e.currentTarget)
         data.append("id_user","5fc05cd21370ca2b28a124f7")
         data.append("type","Essay")
-        data.append("id_tag",JSON.stringify(chooseTags))
+        // data.append("id_tag",chooseTags)
         data.append("correct_answer",data.get("correct_answer"))
         data.append("LOD",data.get("LOD"))
         data.append("question",data.get("question"))
@@ -91,7 +91,7 @@ const CreateQuestion = ()=>{
         for (var key of formData.keys()) {
             obj[key] = formData.get(key);
         }
-        console.log("obj ",obj)
+
         createQuestion(obj)
         .then(value=>
             {
@@ -108,6 +108,7 @@ const CreateQuestion = ()=>{
         e.preventDefault()
         const data = new FormData(e.currentTarget)
         data.append("type","Mul")
+        // data.append("id_tag",chooseTags)
         data.append("score",data.get("score"))
         data.append("question",data.get("question"))
         data.append("LOD",valueSelect)
@@ -117,6 +118,8 @@ const CreateQuestion = ()=>{
         for (var key of formData.keys()) {
             obj[key] = formData.get(key);
         }
+        obj["id_tag"] = chooseTags
+        console.log("obj ",obj)
         createQuestion(obj)
         .then(value=>
             {

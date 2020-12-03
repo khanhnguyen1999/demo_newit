@@ -7,12 +7,15 @@ import {Button} from 'react-bootstrap'
 
 const TableComponent = ({data})=>{
     
-    // const {_getId}  = useContext(AppContext);
+    const {_getId,_showModalDelete,_showModalUpdate}  = useContext(AppContext);
 
     const _handleDelete = (id)=>{
-      // _getId(id)
-      // _showModal()
-      // console.log("modal ",_showModal)
+      _getId(id)
+      _showModalDelete()
+    }
+    const _handleUpdate = (id)=>{
+      _getId(id)
+      _showModalUpdate()
     }
 
     const columns = [
@@ -26,7 +29,7 @@ const TableComponent = ({data})=>{
             title: 'Action',
             render: (id) => (
                 <form key={id._id}>
-                  <ButtonComponent className="mr-2" text="Edit"/>
+                  <Button onClick={()=>_handleUpdate(id._id)}  variant="success" className="mr-2" text="Edit">Edit</Button>
                   <Button onClick={()=>_handleDelete(id._id)} type="button" text="Delete">Delete</Button>
                 </form>)
         }

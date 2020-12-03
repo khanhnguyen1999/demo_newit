@@ -38,28 +38,29 @@ const CreateTag = ()=>{
     }
     useEffect(()=>{
         getTags()
-        .then(data=>{
-            setData(data)
+        .then(d=>{
+            setData(d)
         })
     },[])
     
     const _onChange = (e)=> {
-        const filteredData = data.filter(entry =>
-            entry.tagName.includes(e.target.value)
-          );
-          console.log("data search ",filteredData)
-        setData(filteredData);
+        const query = e.target.value;
+        const filteredData = data.filter(element => {
+            return element.tagName.toLowerCase().includes(query.toLowerCase());
+          });
+          console.log("filter ",filteredData)
+          setData(filteredData)
     }
-   
+console.log("data ",data)
 
-    useEffect(()=>{
-        console.log("search ",searchText)
-        const filteredEvents = data.filter(({ tagName }) => {
-            tagName = tagName.toLowerCase();
-            return tagName.includes(searchText);
-        });
-        setData(filteredEvents)
-    },[searchText])
+    // useEffect(()=>{
+    //     console.log("search ",searchText)
+    //     const filteredEvents = data.filter(({ tagName }) => {
+    //         tagName = tagName.toLowerCase();
+    //         return tagName.includes(searchText);
+    //     });
+    //     setData(filteredEvents)
+    // },[searchText])
 
     const _handleCreateTag = ()=>(
         <Form onSubmit={_onSubmit}>
