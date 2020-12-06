@@ -11,15 +11,11 @@ import {getTags} from '../../../services/apiTag'
 import {createQuestion} from '../../../services/apiQuestion'
 
 import {Input} from 'antd'
-// import { Select } from 'antd';
-// import Input 
 import InputComponent from '../../../components/InputComponent'
-// import ButtonComponent from '../../../components/ButtonComponent'
+
 
 const CreateQuestion = ()=>{
-
     const [selectValue,setSelectValue]=useState(0)
-    // const [selectAnswer,setSelectAnswer]=useState(0)
     const [tags,setTags]=useState([])
     const [correct,setCorrect]=useState(1)
     const [formData,setFormData]=useState([])
@@ -29,7 +25,7 @@ const CreateQuestion = ()=>{
     const [valueSelect,setValueSelect]=useState(1)
     const [level,setLevel]=useState(1)
     const [value,setValue]=useState(0)
-
+    
     const _handleOnChange = (value)=>{
         setSelectValue(value)
     }
@@ -50,18 +46,16 @@ const CreateQuestion = ()=>{
     return a1;    
     }
     function handleChange(e) {
-        console.log("e ",convert(e))
         setChooseTags(convert(e))
     }
-    console.log("choose tag ",chooseTags)
-    console.log("tags ",chooseTags)
-    const SelectSizesDemo = () => {
-        const [size, setSize] = useState('default');
 
-        const handleSizeChange = e => {
-            setSize(e.target.value);
-        };
-    }
+    // const SelectSizesDemo = () => {
+    //     const [size, setSize] = useState('default');
+
+    //     const handleSizeChange = e => {
+    //         setSize(e.target.value);
+    //     };
+    // }
 
     const _optionQuestion = ()=>{
         return (
@@ -77,7 +71,6 @@ const CreateQuestion = ()=>{
         const data = new FormData(e.currentTarget)
         data.append("id_user","5fc05cd21370ca2b28a124f7")
         data.append("type","Essay")
-        // data.append("id_tag",chooseTags)
         data.append("correct_answer",data.get("correct_answer"))
         data.append("LOD",data.get("LOD"))
         data.append("question",data.get("question"))
@@ -91,7 +84,7 @@ const CreateQuestion = ()=>{
         for (var key of formData.keys()) {
             obj[key] = formData.get(key);
         }
-
+        obj["id_tag"] = chooseTags
         createQuestion(obj)
         .then(value=>
             {
@@ -108,7 +101,6 @@ const CreateQuestion = ()=>{
         e.preventDefault()
         const data = new FormData(e.currentTarget)
         data.append("type","Mul")
-        // data.append("id_tag",chooseTags)
         data.append("score",data.get("score"))
         data.append("question",data.get("question"))
         data.append("LOD",valueSelect)
@@ -119,7 +111,6 @@ const CreateQuestion = ()=>{
             obj[key] = formData.get(key);
         }
         obj["id_tag"] = chooseTags
-        console.log("obj ",obj)
         createQuestion(obj)
         .then(value=>
             {

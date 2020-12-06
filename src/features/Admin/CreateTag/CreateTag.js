@@ -18,10 +18,7 @@ const CreateTag = ()=>{
     const [toggle,setToggle]=useState(false)
     const [tagName,setTagName]=useState("")
     const [data,setData]=useState([])
-    const [value, setValue] = useState('');
-    // const [dataSource, setDataSource] = useState(data);
-    const [searchText,setSearchText]=useState("")
-
+    const [filter,setFilter]=useState([])
 
     const _handleChange = (v)=>{
         setTagName(v)
@@ -41,29 +38,27 @@ const CreateTag = ()=>{
         .then(d=>{
             setData(d)
         })
-    },[])
-    
+    },[setData])
+    useEffect(()=>{
+        setFilter(data)
+    },[data])
     const _onChange = (e)=> {
         const query = e.target.value;
+
+       if(query!="")
+       {
         const filteredData = data.filter(element => {
             return element.tagName.toLowerCase().includes(query.toLowerCase());
-          });
-          console.log("filter ",filteredData)
-          setData(filteredData)
+            });
+        setFilter(filteredData)
+       }
+       if(query==""){
+        setFilter(data)
+       }
     }
-console.log("data ",data)
-
-    // useEffect(()=>{
-    //     console.log("search ",searchText)
-    //     const filteredEvents = data.filter(({ tagName }) => {
-    //         tagName = tagName.toLowerCase();
-    //         return tagName.includes(searchText);
-    //     });
-    //     setData(filteredEvents)
-    // },[searchText])
 
     const _handleCreateTag = ()=>(
-        <Form onSubmit={_onSubmit}>
+        <Form onSubmit={()=>_onSubmit}>
             <Form.Group controlId="formBasicEmail">
                 <Form.Label>Tag Name</Form.Label>
                 <InputComponent handleChange={_handleChange} type="text" placeholder="Enter Tag name..." />
@@ -86,7 +81,7 @@ console.log("data ",data)
             {toggle?_handleCreateTag():null}
             <h2 className="text-center mt-3">Tags List</h2>
             {FilterByNameInput}
-            <TableComponent data={data}/>
+            <TableComponent data={filter}/>
         </>
     )
 }

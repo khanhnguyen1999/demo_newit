@@ -10,8 +10,6 @@ import {Container} from 'react-bootstrap'
 
 function App() {
 
-  console.log("text ",test)
-  // console.log("modal ",isModal,getId)
   return (
     <>
     <LayoutComponent>

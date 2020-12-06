@@ -10,6 +10,7 @@ import Contest from './features/Admin/Contest/Contest'
 import ModalComponent from './components/Modal/ModalComponent'
 import ModalUpdate from './components/Modal/ModalUpdate'
 import ModalQuestion from './components/Modal/ModalQuestion'
+import ModalUpdateQues from './components/Modal/ModalUpdateQues'
 
 export default function Routes(){
     const {isModal,isModalUpdate,isModalQuestion} = useContext(AppContext) 
@@ -26,6 +27,7 @@ export default function Routes(){
             <ModalComponent/>
             <ModalUpdate/>
             <ModalQuestion/>
+            <ModalUpdateQues/>
         </BrowserRouter>
     )
 }
