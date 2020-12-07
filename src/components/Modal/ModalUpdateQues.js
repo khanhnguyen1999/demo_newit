@@ -52,14 +52,6 @@ const UpdateMul = ()=>{
                     <InputComponent type="submit" className="mt-3 ml-2" type="submit" text="Create Question"/>
                 </Form>
             </Modal.Body>
-            <Modal.Footer>
-            <Button variant="secondary" onClick={_hideModalUpdateQues}>
-                        Close
-                    </Button>
-                    <Button variant="danger">
-                        Save Item
-                    </Button>
-            </Modal.Footer>
         </Modal>
     )
 }
@@ -123,14 +115,6 @@ const UpdateEssay = ()=>{
                 <InputComponent type="submit" className="mt-3 ml-2" type="submit" text="Create Question"/>
             </Form>
         </Modal.Body>
-        <Modal.Footer>
-        <Button variant="secondary" onClick={_hideModalUpdateQues}>
-                    Close
-                </Button>
-                <Button variant="danger">
-                    Save Item
-                </Button>
-        </Modal.Footer>
     </Modal>
     )
 }
@@ -141,12 +125,10 @@ const ModalUpdateQues = ()=>{
     const [value,setValue]=useState(false)
     const {data,getIdQues} = useContext(AppContext)
     useEffect(()=>{
-        console.log("data ",data,getIdQues)
         const list = data.filter(item=>{
             return item._id===getIdQues
         })
         list.filter(item=>{
-            console.log("item ",item.type)
             if(item.type==="Mul"){
                 return setValue(false)
             }
@@ -154,10 +136,7 @@ const ModalUpdateQues = ()=>{
                 return setValue(true)
             }
         })
-        // console.log("check ",check)
-        // check?setValue(true):setValue(false)
     },[getIdQues])
-    console.log("damne ",value)
     return (
         <>
         {value?UpdateEssay():UpdateMul()}
