@@ -11,7 +11,8 @@ import ModalComponent from './components/Modal/ModalComponent'
 import ModalUpdate from './components/Modal/ModalUpdate'
 import ModalQuestion from './components/Modal/ModalQuestion'
 import ModalUpdateQues from './components/Modal/ModalUpdateQues'
-
+import CreateExam from './features/Admin/Contest/CreateExam'
+import ViewQuestion from './features/Admin/Contest/ViewQuestion'
 export default function Routes(){
     const {isModal,isModalUpdate,isModalQuestion} = useContext(AppContext) 
     return(
@@ -22,6 +23,8 @@ export default function Routes(){
                     <Route path="/createquestion" exact component={Question}/>  
                     <Route path="/createtag" exact component={CreateTag}/> 
                     <Route path="/contest" exact component={Contest}/> 
+                    <Route path="/contest/createexam" exact component={CreateExam}/> 
+                    <Route path="/contest/viewquestion" exact component={ViewQuestion}/> 
                 </Switch>
             </LayoutComponent>
             <ModalComponent/>

@@ -1,17 +1,15 @@
 import React,{useState,useEffect} from 'react'
 import {Form} from 'react-bootstrap'
+import ListQuestionCreateExam from './ListQuestionCreateExam'
 
-import ListExam from './ListExam'
+import {Input} from 'antd'
 
 import {createExam} from '../../../services/apiExam'
 
 import { Select } from 'antd';
 import {getAllCandidate} from '../../../services/apiCandidate'
-import {Link} from 'react-router-dom'
 
-
-const Contest = ()=>{
-
+const CreateExam = ()=>{
     const [tags,setTags]=useState([])
     const [formData,setFormData]=useState([])
     const [chooseTags,setChooseTags]=useState([{
@@ -59,11 +57,9 @@ const Contest = ()=>{
             }
         )
     }
-
     return (
         <>
-            <h1 className="text-center">Create Contest</h1>
-            {/* <Form onSubmit={_onSubmit}>
+              <Form onSubmit={_onSubmit}>
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label>Name Contest</Form.Label>
                     <Input name="nameExam" type="text" placeholder="Enter Name Contest..." />
@@ -86,15 +82,9 @@ const Contest = ()=>{
                         {children}x
                     </Select>
                 </Form.Group>
-            </Form>  */}
-            <button id="create_contest" type="submit">
-                <Link to="/contest/createexam">
-                    Create Contest
-                </Link>
-            </button>
-            <h1 className="text-center">List Exams</h1>
-            <ListExam/>
+            </Form> 
+            <ListQuestionCreateExam/>
         </>
     )
 }
-export default Contest
+export default CreateExam
