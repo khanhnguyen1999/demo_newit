@@ -1,6 +1,6 @@
 import React,{useState,useEffect,useContext} from 'react'
 import { Table,Select } from 'antd';
-import {Button} from 'react-bootstrap'
+import {Button} from 'antd'
 
 import {getAllExam} from '../../../services/apiExam'
 import {getUserNameById} from '../../../services/apiUser'
@@ -36,11 +36,11 @@ const ListExam = ()=>{
             render: (id) => (
                 <form key={id._id}>
                 <Button onClick={()=>{_getId(id._id)}} variant="light" className="mr-2 mb-2">
-                    <Link to="/contest/viewquestion">
+                    <Link to={`/contest/viewquestion/${id._id}`}>
                         View
                     </Link>
                 </Button>
-                <Button onClick={()=>{}} variant="danger" type="button" text="Delete">Delete</Button>
+                <Button onClick={()=>{}} type="danger" text="Delete">Delete</Button>
                 </form>)
         },  
     ];
@@ -62,6 +62,10 @@ const ListExam = ()=>{
         )
     },[setData])
 
+
+    useEffect(()=>{
+        localStorage.setItem("exams",JSON.stringify(data));
+    },[data])
    
     useEffect(()=>{
         check()

@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import CreateQuestion from './CreateQuestion'
-import {Button} from 'react-bootstrap'
+import {Button} from 'antd'
 import ListQuestion from './ListQuestion'
 
 const Question = ()=>{

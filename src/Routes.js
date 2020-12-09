@@ -7,12 +7,19 @@ import LayoutComponent from './components/Layout'
 import Question from './features/Admin/Question/Question'
 import CreateTag from './features/Admin/CreateTag/CreateTag'
 import Contest from './features/Admin/Contest/Contest'
+
+
 import ModalComponent from './components/Modal/ModalComponent'
 import ModalUpdate from './components/Modal/ModalUpdate'
 import ModalQuestion from './components/Modal/ModalQuestion'
 import ModalUpdateQues from './components/Modal/ModalUpdateQues'
+import ModalShowCartQues from './components/Modal/ModalShowCartQues'
+
+
 import CreateExam from './features/Admin/Contest/CreateExam'
 import ViewQuestion from './features/Admin/Contest/ViewQuestion'
+
+
 export default function Routes(){
     const {isModal,isModalUpdate,isModalQuestion} = useContext(AppContext) 
     return(
@@ -24,13 +31,14 @@ export default function Routes(){
                     <Route path="/createtag" exact component={CreateTag}/> 
                     <Route path="/contest" exact component={Contest}/> 
                     <Route path="/contest/createexam" exact component={CreateExam}/> 
-                    <Route path="/contest/viewquestion" exact component={ViewQuestion}/> 
+                    <Route path="/contest/viewquestion/:id" exact component={ViewQuestion}/> 
                 </Switch>
             </LayoutComponent>
             <ModalComponent/>
             <ModalUpdate/>
             <ModalQuestion/>
             <ModalUpdateQues/>
+            <ModalShowCartQues/>
         </BrowserRouter>
     )
 }

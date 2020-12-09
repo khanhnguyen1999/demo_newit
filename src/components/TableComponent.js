@@ -3,7 +3,7 @@ import {Table, Tag, Space} from 'antd'
 import ButtonComponent from './ButtonComponent'
 import {deleteTag} from '../services/apiTag'
 import {AppContext} from '../context/AppContext'
-import {Button} from 'react-bootstrap'
+import {Button} from 'antd'
 
 const TableComponent = ({data})=>{
     
@@ -29,8 +29,8 @@ const TableComponent = ({data})=>{
             title: 'Action',
             render: (id) => (
                 <form key={id._id}>
-                  <Button onClick={()=>_handleUpdate(id._id)}  variant="success" className="mr-2" text="Edit">Edit</Button>
-                  <Button onClick={()=>_handleDelete(id._id)} type="button" text="Delete">Delete</Button>
+                  <Button onClick={()=>_handleUpdate(id._id)} className="mr-2" text="Edit">Edit</Button>
+                  <Button onClick={()=>_handleDelete(id._id)} type="danger" text="Delete">Delete</Button>
                 </form>)
         }
       ];

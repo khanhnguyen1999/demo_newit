@@ -1,7 +1,7 @@
 import React,{useState,useEffect,useContext} from 'react'
 import {getAllQuestion} from '../../../services/apiQuestion'
 import { Table, Tag, Space,Select } from 'antd';
-import {Button} from 'react-bootstrap'
+import {Button} from 'antd'
 import {AppContext} from '../../../context/AppContext'
 
 
@@ -15,6 +15,7 @@ const ListQuestion = ()=>{
         getAllQuestion()
         .then(data=>{
           _getData(data)
+          localStorage.setItem("questions",data)
           setQuestions(data)
         })
     },[_getData])
@@ -65,7 +66,7 @@ const ListQuestion = ()=>{
             render: (id) => (
                 <form key={id._id}>
                   <Button onClick={()=>_handleUpdateQues(id._id)} variant="light" className="mr-2 mb-2">Edit</Button>
-                  <Button onClick={()=>_handleDeleteQues(id._id)} variant="danger" type="button" text="Delete">Delete</Button>
+                  <Button onClick={()=>_handleDeleteQues(id._id)} type="danger" text="Delete">Delete</Button>
                 </form>)
         },  
       ];

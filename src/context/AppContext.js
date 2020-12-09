@@ -9,7 +9,8 @@ const initialState = {
   isModalQuestion:false,
   getId:null,
   getIdQues:null,
-  modalUpdateQues:false
+  modalUpdateQues:false,
+  modalShowQuestion:false
 }
 
 const reducer = (state=initialState,action)=>{
@@ -58,6 +59,11 @@ const reducer = (state=initialState,action)=>{
         ...state,
         modalUpdateQues:action.payload
       }
+    case "SHOW_MODAL_QUESTION":
+      return {
+        ...state,
+        modalShowQuestion:action.payload
+      }
     default:
       return state;
   }
@@ -67,7 +73,7 @@ const reducer = (state=initialState,action)=>{
 export const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
-  const [{data,isLoading,isModal,isModalUpdate,getId,getIdQues,isModalQuestion,modalUpdateQues},dispatch]=useReducer(reducer,initialState)
+  const [{data,isLoading,isModal,modalShowQuestion,isModalUpdate,getId,getIdQues,isModalQuestion,modalUpdateQues},dispatch]=useReducer(reducer,initialState)
   const _showModalDelete = ()=>{
     dispatch({type:"SHOW_MODAL",payload:true})
   }
@@ -101,6 +107,12 @@ const AppProvider = ({ children }) => {
   const _hideModalUpdateQues = ()=>{
     dispatch({type:"SHOW_MODAL_UPDATE_QUESTION",payload:false})
   }
+  const _showModalQuestion = ()=>{
+    dispatch({type:"SHOW_MODAL_QUESTION",payload:true})
+  }
+  const _hideModalQuestion = ()=>{
+    dispatch({type:"SHOW_MODAL_QUESTION",payload:false})
+  }
   return (
     <AppContext.Provider value={{
         data,
@@ -111,6 +123,7 @@ const AppProvider = ({ children }) => {
         modalUpdateQues,
         isModalQuestion,
         isModalUpdate,
+        modalShowQuestion,
         _getIdQues,
         _showModalQues,
         _showModalUpdateQues,
@@ -121,7 +134,9 @@ const AppProvider = ({ children }) => {
         _showModalUpdate,
         _hideModal,
         _getId,
-        _getData
+        _getData,
+        _showModalQuestion,
+        _hideModalQuestion,
       }}>
       {children}
     </AppContext.Provider>

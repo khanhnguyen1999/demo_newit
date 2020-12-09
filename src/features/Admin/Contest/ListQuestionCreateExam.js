@@ -1,15 +1,21 @@
 import React,{useState,useEffect,useContext} from 'react'
-import {getAllQuestion} from '../../../services/apiQuestion'
+
+import {getAllQuestion,getQuestionById} from '../../../services/apiQuestion'
+
 import { Table, Tag, Space,Select } from 'antd';
-import {Button} from 'react-bootstrap'
+
+import {Button} from 'antd'
+import {ShoppingCartOutlined} from "@ant-design/icons"
+
 import {AppContext} from '../../../context/AppContext'
 
 const ListQuestionCreateExam = ()=>{
 
     const [questions,setQuestions]=useState([])
+    const [quesToCart,setQuesToCart]=useState([])
     const [filter,setFilter]=useState([])
     const [selectValue,setSelectValue]=useState("")
-    const {_getData,_getId,_showModalQues,_showModalUpdateQues,_getIdQues} = useContext(AppContext)
+    const {_getData,_getId,_showModalQues,_showModalUpdateQues,_getIdQues,_showModalQuestion} = useContext(AppContext)
 
     useEffect(()=>{
         getAllQuestion()
@@ -63,14 +69,24 @@ const ListQuestionCreateExam = ()=>{
             title: 'Action',
             render: (id) => (
                 <form key={id._id}>
-                  <Button onClick={()=>_handleUpdateQues(id._id)} variant="light" className="mr-2 mb-2">Add to Exams</Button>
+                  <Button onClick={()=>_handleAddQuestion(id._id)} variant="light" className="mr-2 mb-2">Add to Exams</Button>
                 </form>)
         },  
       ];
 
+      const _handleAddQuestion = async (id)=>{
+        const ques = await getQuestionById(id)
+        setQuesToCart([...quesToCart,ques])
+      }
+      // console.log("question to cart ",quesToCart)
+
       const _handleOnChange = (value)=>{
         setSelectValue(value)
     }
+
+    useEffect(()=>{
+      localStorage.setItem("QUESTION",JSON.stringify(quesToCart))
+    },[_handleAddQuestion])
     useEffect(()=>{
 
       setFilter(questions)
@@ -95,6 +111,7 @@ const ListQuestionCreateExam = ()=>{
                 <Select.Option value="1">Essay Question</Select.Option>
                 <Select.Option value="2">Mul Question</Select.Option>
         </Select>
+        <Button onClick={()=>_showModalQuestion()}><ShoppingCartOutlined /> Cart Questions</Button>
         <Table columns={columns} dataSource={filter} />
         </>
     )

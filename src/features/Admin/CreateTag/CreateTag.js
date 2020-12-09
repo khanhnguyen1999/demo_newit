@@ -7,11 +7,12 @@ import {createTag,getTags} from '../../../services/apiTag'
 import TableComponent from '../../../components/TableComponent'
 import LoadingComponent from '../../../components/LoadingComponent'
 
-import { Input, Table } from 'antd';
+import { Input, Button } from 'antd';
 import SearchField from "react-search-field";
 import TypeChecker from 'typeco';
 // import '../Question/node_modules/react-notifications/lib/notifications.css';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
+
 
 const CreateTag = ()=>{
 
