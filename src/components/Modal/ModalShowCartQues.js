@@ -2,7 +2,7 @@ import React,{useEffect,useContext,useState} from 'react'
 
 import {AppContext} from '../../context/AppContext'
 
-import { Modal, Button, Space } from 'antd';
+import { Modal, Button, Input } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 import {randomQuestion,getQuestionById} from '../../services/apiQuestion'
@@ -12,6 +12,7 @@ const ModalShowCartQues = ()=>{
     const {modalShowQuestion,_hideModalQuestion} = useContext(AppContext)
     const [questions,setQuestions]=useState([])
     const [questionRandom,setQuestionRandom]=useState([])
+    const [limitRandom,setLimitRandom]=useState(10)
 
     useEffect(()=>{
         const data = JSON.parse(localStorage.getItem("QUESTION"))
@@ -19,10 +20,14 @@ const ModalShowCartQues = ()=>{
     },[modalShowQuestion])
 
 
+    const _handleLimit = (e)=>{
+        setLimitRandom(e.target.value)
+    }
+
     const _handleRandom =  ()=>{
         const arr = []
         setQuestions([])
-        randomQuestion(10)
+        randomQuestion(limitRandom)
         .then( v=>{
             v.map(async(item)=>{
                 const check = await getQuestionById(item.question)
@@ -32,10 +37,7 @@ const ModalShowCartQues = ()=>{
         setQuestionRandom(arr)
     }
 
-    useEffect(()=>{
-        console.log("question ",questionRandom)
-    },[questionRandom])
-    // console.log("random ",questionRandom)
+    
     return (
       <>
         <Modal
@@ -68,6 +70,8 @@ const ModalShowCartQues = ()=>{
                   )
               })
           }
+          <p>Limit Random</p>
+          <Input min="10" max="50" onChange={_handleLimit} type="number"/>
         </Modal>
       </>
     );

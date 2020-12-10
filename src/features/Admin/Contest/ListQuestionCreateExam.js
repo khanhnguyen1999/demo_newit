@@ -2,7 +2,9 @@ import React,{useState,useEffect,useContext} from 'react'
 
 import {getAllQuestion,getQuestionById} from '../../../services/apiQuestion'
 
-import { Table, Tag, Space,Select } from 'antd';
+import { Table,Select } from 'antd';
+import { Skeleton } from 'antd';
+
 
 import {Button} from 'antd'
 import {ShoppingCartOutlined} from "@ant-design/icons"
@@ -23,7 +25,8 @@ const ListQuestionCreateExam = ()=>{
           _getData(data)
           setQuestions(data)
         })
-    },[_getData])
+        console.log("false")
+    },[setQuestions])
 
     const _handleDeleteQues = (id)=>{
       _getId(id)
@@ -78,7 +81,7 @@ const ListQuestionCreateExam = ()=>{
         const ques = await getQuestionById(id)
         setQuesToCart([...quesToCart,ques])
       }
-      // console.log("question to cart ",quesToCart)
+
 
       const _handleOnChange = (value)=>{
         setSelectValue(value)
@@ -104,6 +107,8 @@ const ListQuestionCreateExam = ()=>{
         setFilter(list)
       }
     },[selectValue,questions])
+
+
     return (
         <>
         <Select className="mb-2" defaultValue="0" style={{ width: 150 }} onChange={_handleOnChange}>
@@ -112,7 +117,7 @@ const ListQuestionCreateExam = ()=>{
                 <Select.Option value="2">Mul Question</Select.Option>
         </Select>
         <Button onClick={()=>_showModalQuestion()}><ShoppingCartOutlined /> Cart Questions</Button>
-        <Table columns={columns} dataSource={filter} />
+        <Table columns={columns} dataSource={filter}><Skeleton /></Table>
         </>
     )
 }

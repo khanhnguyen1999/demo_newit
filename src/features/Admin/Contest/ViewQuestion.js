@@ -3,41 +3,46 @@ import React,{useEffect,useState} from 'react'
 
 import {useParams} from 'react-router-dom'
 
-import {getQuestionById} from '../../../services/apiQuestion'
+// import {getQuestionById} from '../../../services/apiQuestion'
+
+import {Table} from 'antd'
 
 const ViewMoreQuestion = ()=>{
 
     const [item,setItem]=useState([])
     const [data,setData]=useState([])
+    const [questions,setQuestions]=useState([])
+    const [cans,setCans]=useState([])
 
     const {id} = useParams()
 
-    const check = async ()=> {
-        return data.map(async (x)=>{
-           return await x.list_question.map(async(c,index)=>{
-            //    return console.log("c ",c.question)
-            if(c.question){
-                // console.log("check ",c.question._id)
-                const v = await getQuestionById("5fc4a48705066531cd05c5cf")
-                console.log("vv ",v)
-                return v
-            }
-           })
-        })
-    }
-    useEffect(()=>{
-        check()
-        .then(v=> Promise.all(v))
-        .then(v=> {const check = v.map((item,index)=>{
-            return Promise.resolve(i=>i)
+    const list_Ques = []
+
+    const getQuestion = async ()=> {
+        return await data.map(async(x)=>{
+            await x.list_question.map(async(c,index)=>{
+                return await list_Ques.push(c.question)
+            })
         }
-        
         )
-        console.log("v ",check)
-        })
-        // .then(v => Promise.resolve(v).then(value=>console.log("check value ",value)))
-        // .catch(err => console.error(err));
-    },[setItem,check])
+    }
+
+    const list_Cans = []
+    const getCans = async ()=> {
+        return await data.map(async(x)=>{
+            await x.list_can.map(async(c,index)=>{
+                return await list_Cans.push(c.can)
+            })
+        }
+        )
+    }
+
+    useEffect(()=>{
+        getQuestion()
+        setQuestions(list_Ques)
+        getCans()
+        setCans(list_Cans)
+    },[getQuestion,getCans])
     // console.log()
 
     useEffect(()=>{
@@ -48,36 +53,41 @@ const ViewMoreQuestion = ()=>{
   
     // console.log("items ",item)
 
+    const columns = [
+        {
+          title: 'Name',
+          dataIndex: 'name',
+          key: 'name',
+          render: text => <a>{text}</a>,
+        }
+    ]
+
     return (
         <>
-            {item.length>0 && item.map((value,index)=>{
-                return (
-                    // <div key={index}>
-                    //     <h1>{value.nameExam}</h1>
-                    //     <h3>List Questions</h3>
-                    //     <p>{
-                    //         value.list_question.length>0 && value.list_question.map((list,index)=>{
-                    //             console.log("questions ",list.question)
-                    //             return (
-                    //                 <div key={index}>
-                    //                     {list._id}
-                    //                 </div>
-                    //             )
-                    //         })
-                    //     }</p>
-                    //     <h3>List Candidates</h3>
-                    //     <p>{
-                    //         value.list_can.length>0 && value.list_can.map((list,index)=>{
-                    //             return (
-                    //                 <div key={index}>
-                    //                     {list._id}
-                    //                 </div>
-                    //             )
-                    //         })
-                    //     }</p>
-                    // </div>
-                    <h1 key={index}>123</h1>
-                )
+            <h1>List Questions</h1>
+            {questions.length>0 && questions.map((value,index)=>{
+                if(value?.question!==null){
+                    return (
+                        <div key={index}>
+                            <p>{index+1}</p>
+                            <p>{value?.question}</p>
+                        </div>
+                        
+                    )}
+                })
+            }
+            <h1>List Candidates</h1>
+            {cans.length>0 && cans.map((value,index)=>{
+                console.log("value ",value)
+                if(value?.can_email!==null){
+                    return (
+                        <div key={index}>
+                            <p>{index+1}</p>
+                            <p>{value?.can_email}</p>
+                        </div>
+                       
+                        
+                    )}
                 })
             }
         </>
