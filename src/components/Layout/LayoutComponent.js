@@ -3,13 +3,18 @@ import React from 'react'
 // import layout ant design 
 import { Layout, Menu, Breadcrumb } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
-import {Link,Route} from 'react-router-dom'
+import {Link,useHistory} from 'react-router-dom'
+
 
 
 
 const LayoutComponent = ({children})=>{
     const { SubMenu } = Menu;
     const { Header, Content, Sider } = Layout;
+
+    const history = useHistory()
+    console.log("history ",history.location.pathname)
+
     return (
         <Layout>
             <Header className="header">
@@ -39,7 +44,7 @@ const LayoutComponent = ({children})=>{
                             Tags
                         </Link>  
                     </Menu.Item>
-                    <Menu.Item key="4">
+                    <Menu.Item active key="4">
                         <Link to="/contest">
                             Contests
                         </Link>  

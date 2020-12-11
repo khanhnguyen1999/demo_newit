@@ -5,6 +5,8 @@ import {getAllQuestion,getQuestionById} from '../../../services/apiQuestion'
 import { Table,Select } from 'antd';
 import { Skeleton } from 'antd';
 
+import { useToasts } from 'react-toast-notifications'
+
 
 import {Button} from 'antd'
 import {ShoppingCartOutlined} from "@ant-design/icons"
@@ -17,25 +19,10 @@ const ListQuestionCreateExam = ()=>{
     const [quesToCart,setQuesToCart]=useState([])
     const [filter,setFilter]=useState([])
     const [selectValue,setSelectValue]=useState("")
-    const {_getData,_getId,_showModalQues,_showModalUpdateQues,_getIdQues,_showModalQuestion} = useContext(AppContext)
+    const {_getData,_showModalQuestion} = useContext(AppContext)
 
-    useEffect(()=>{
-        getAllQuestion()
-        .then(data=>{
-          _getData(data)
-          setQuestions(data)
-        })
-        console.log("false")
-    },[setQuestions])
-
-    const _handleDeleteQues = (id)=>{
-      _getId(id)
-      _showModalQues()
-    }
-    const _handleUpdateQues = (id)=>{
-      _getIdQues(id)
-      _showModalUpdateQues()
-    }
+    const { addToast } = useToasts()
+ 
     const columns = [
         {
           title: 'Question',
@@ -72,26 +59,42 @@ const ListQuestionCreateExam = ()=>{
             title: 'Action',
             render: (id) => (
                 <form key={id._id}>
-                  <Button onClick={()=>_handleAddQuestion(id._id)} variant="light" className="mr-2 mb-2">Add to Exams</Button>
+                  <Button onClick={()=>_handleAddQuestion(id._id)} type="primary" danger={id.Add?false:true} className="mr-2 mb-2">{id.Add?"Add to Exams":"Added"}</Button>
                 </form>)
         },  
       ];
 
-      const _handleAddQuestion = async (id)=>{
-        const ques = await getQuestionById(id)
-        setQuesToCart([...quesToCart,ques])
-      }
+    
 
+    const _handleAddQuestion = async (id)=>{
+     const toggleAddQues = questions.map(item => {
+        if(item._id === id){
+            item.Add = !item.Add
+         }
+       return item
+      }) 
+      setQuestions(toggleAddQues)
 
-      const _handleOnChange = (value)=>{
-        setSelectValue(value)
+      await getQuestionById(id)
+        .then(data=> setQuesToCart([...quesToCart,data]))
+        .then(() => addToast('Question added to the cart!', {
+          appearance: 'success',
+          autoDismiss: true,
+          pauseOnHover: true,
+        }))
     }
+
+
+    const _handleOnChange = (value)=>{
+      setSelectValue(value)
+    }
+
 
     useEffect(()=>{
       localStorage.setItem("QUESTION",JSON.stringify(quesToCart))
-    },[_handleAddQuestion])
-    useEffect(()=>{
+    },[quesToCart])
 
+    useEffect(()=>{
       setFilter(questions)
       if(selectValue==1){
         const list = questions.filter((x)=>{
@@ -99,7 +102,6 @@ const ListQuestionCreateExam = ()=>{
         })
         setFilter(list)
       }
-
       if(selectValue==2){
         const list = questions.filter((x)=>{
           return x.type == "Mul"
@@ -108,6 +110,21 @@ const ListQuestionCreateExam = ()=>{
       }
     },[selectValue,questions])
 
+    useEffect(()=>{
+      getAllQuestion()
+      .then(data=>{
+        _getData(data)
+        const arr = []
+          data.map((item)=>{
+            return arr.push(
+            {
+              ...item,
+              "Add":true
+            })
+          })
+          setQuestions(arr)
+      })
+  },[setQuestions])
 
     return (
         <>
@@ -116,7 +133,7 @@ const ListQuestionCreateExam = ()=>{
                 <Select.Option value="1">Essay Question</Select.Option>
                 <Select.Option value="2">Mul Question</Select.Option>
         </Select>
-        <Button onClick={()=>_showModalQuestion()}><ShoppingCartOutlined /> Cart Questions</Button>
+        <Button className="ml-2" onClick={()=>_showModalQuestion()}><ShoppingCartOutlined /> Cart Questions</Button>
         <Table columns={columns} dataSource={filter}><Skeleton /></Table>
         </>
     )

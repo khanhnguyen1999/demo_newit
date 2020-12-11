@@ -10,7 +10,9 @@ const initialState = {
   getId:null,
   getIdQues:null,
   modalUpdateQues:false,
-  modalShowQuestion:false
+  modalShowQuestion:false,
+  removeAddedQues:false,
+  modalDeleteExam:false
 }
 
 const reducer = (state=initialState,action)=>{
@@ -64,6 +66,16 @@ const reducer = (state=initialState,action)=>{
         ...state,
         modalShowQuestion:action.payload
       }
+    case "REMOVE_ADDED_QUESTIONS":
+      return {
+        ...state,
+        removeAddedQues:action.payload
+      }
+    case "MODAL_DELETE_EXAM":
+      return {
+        ...state,
+        modalDeleteExam:action.payload
+      }
     default:
       return state;
   }
@@ -73,7 +85,7 @@ const reducer = (state=initialState,action)=>{
 export const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
-  const [{data,isLoading,isModal,modalShowQuestion,isModalUpdate,getId,getIdQues,isModalQuestion,modalUpdateQues},dispatch]=useReducer(reducer,initialState)
+  const [{data,modalDeleteExam,isLoading,isModal,modalShowQuestion,isModalUpdate,getId,getIdQues,isModalQuestion,modalUpdateQues},dispatch]=useReducer(reducer,initialState)
   const _showModalDelete = ()=>{
     dispatch({type:"SHOW_MODAL",payload:true})
   }
@@ -113,6 +125,15 @@ const AppProvider = ({ children }) => {
   const _hideModalQuestion = ()=>{
     dispatch({type:"SHOW_MODAL_QUESTION",payload:false})
   }
+  const _removeAddedQuestion = ()=>{
+    dispatch({type:"REMOVE_ADDED_QUESTIONS",payload:false})
+  }
+  const _showModalDeleteExam = ()=>{
+    dispatch({type:"MODAL_DELETE_EXAM",payload:true})
+  }
+  const _hideModalDeleteExam = ()=>{
+    dispatch({type:"MODAL_DELETE_EXAM",payload:false})
+  }
   return (
     <AppContext.Provider value={{
         data,
@@ -124,6 +145,10 @@ const AppProvider = ({ children }) => {
         isModalQuestion,
         isModalUpdate,
         modalShowQuestion,
+        modalDeleteExam,
+        _removeAddedQuestion,
+        _showModalDeleteExam,
+        _hideModalDeleteExam,
         _getIdQues,
         _showModalQues,
         _showModalUpdateQues,

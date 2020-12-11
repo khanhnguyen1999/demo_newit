@@ -17,7 +17,7 @@ const ListExam = ()=>{
     const [filter,setFilter]=useState([])
 
 
-    const {_getId} = useContext(AppContext)
+    const {_getId,_showModalDeleteExam} = useContext(AppContext)
 
     const columns = [
         {
@@ -40,10 +40,15 @@ const ListExam = ()=>{
                         View
                     </Link>
                 </Button>
-                <Button onClick={()=>{}} type="danger" text="Delete">Delete</Button>
+                <Button onClick={()=>{_showModalDelete(id._id)}} type="danger" text="Delete">Delete</Button>
                 </form>)
         },  
     ];
+
+    const _showModalDelete = (id)=>{
+        _getId(id)
+        _showModalDeleteExam()
+    }
 
     async function check() {
         return data.map(async (x)=>{
@@ -76,7 +81,6 @@ const ListExam = ()=>{
 
     return (
         <>
-        {/* <ListQuestion/> */}
          <Table columns={columns} dataSource={filter} />
        </>
     )

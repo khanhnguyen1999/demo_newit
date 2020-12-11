@@ -30,3 +30,18 @@ export const getAllExam = ()=>{
             console.log(err)
         })
 }
+
+export const deleteExam = (id)=>{
+    return fetch(`${API}/exams/deleteexam/${id}`,{
+        method:"POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        })
+        .then(res=>{
+            return res.json()
+        })
+        .catch(err=>{
+            console.log(err)
+        })
+}

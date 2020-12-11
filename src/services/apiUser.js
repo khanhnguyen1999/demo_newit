@@ -15,3 +15,7 @@ export const getUserNameById = (id)=>{
             console.log(err)
         })
 }
+
+// export const createUser = (obj)=>{
+//     return fetch(`${API}/users)
+// }

@@ -63,30 +63,6 @@ const Contest = ()=>{
     return (
         <>
             <h1 className="text-center">Create Contest</h1>
-            {/* <Form onSubmit={_onSubmit}>
-                <Form.Group controlId="formBasicEmail">
-                    <Form.Label>Name Contest</Form.Label>
-                    <Input name="nameExam" type="text" placeholder="Enter Name Contest..." />
-                </Form.Group>
-                <Form.Group controlId="formBasicEmail">
-                    <Form.Label>Questions Contest</Form.Label>
-                    <Input name="quesExam" min="10" max="100" type="number" placeholder="Enter Name Contest..." />
-                </Form.Group>
-                <Form.Group>
-                    <p>Tags:</p>
-                    <Select
-                        id="questions"
-                        name="questions"
-                        mode="multiple"
-                        placeholder="Please select"
-                        defaultValue={[]}
-                        onChange={handleChange}
-                        style={{ width: '100%' }}
-                    >
-                        {children}x
-                    </Select>
-                </Form.Group>
-            </Form>  */}
             <button id="create_contest" type="submit">
                 <Link to="/contest/createexam">
                     Create Contest

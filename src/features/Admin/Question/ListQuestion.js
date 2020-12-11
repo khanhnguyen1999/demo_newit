@@ -18,7 +18,7 @@ const ListQuestion = ()=>{
           localStorage.setItem("questions",data)
           setQuestions(data)
         })
-    },[_getData])
+    },[setQuestions])
 
     const _handleDeleteQues = (id)=>{
       _getId(id)

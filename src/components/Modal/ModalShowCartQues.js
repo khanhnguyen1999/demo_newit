@@ -2,17 +2,22 @@ import React,{useEffect,useContext,useState} from 'react'
 
 import {AppContext} from '../../context/AppContext'
 
-import { Modal, Button, Input } from 'antd';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { Modal, Input } from 'antd';
+
+
+import { useToasts } from 'react-toast-notifications'
+
 
 import {randomQuestion,getQuestionById} from '../../services/apiQuestion'
 
 const ModalShowCartQues = ()=>{
 
-    const {modalShowQuestion,_hideModalQuestion} = useContext(AppContext)
+    const {modalShowQuestion,_hideModalQuestion,_removeAddedQuestion} = useContext(AppContext)
     const [questions,setQuestions]=useState([])
     const [questionRandom,setQuestionRandom]=useState([])
     const [limitRandom,setLimitRandom]=useState(10)
+
+    const { addToast } = useToasts()
 
     useEffect(()=>{
         const data = JSON.parse(localStorage.getItem("QUESTION"))
@@ -24,19 +29,32 @@ const ModalShowCartQues = ()=>{
         setLimitRandom(e.target.value)
     }
 
-    const _handleRandom =  ()=>{
+    const _handleRandom = async ()=>{
         const arr = []
         setQuestions([])
-        randomQuestion(limitRandom)
-        .then( v=>{
-            v.map(async(item)=>{
-                const check = await getQuestionById(item.question)
-                arr.push(check)
+        await randomQuestion(limitRandom)
+            .then( async v=>{
+            return await v.map(async(item)=>{
+                    // const ques_random = 
+                    arr.push(await getQuestionById(item.question))
+                    localStorage.setItem("QUESTION_RANDOM",JSON.stringify(arr))
+                    console.log("Ar ",arr)
+                    return arr
+                })
             })
-        })
+            .then(() => addToast('Random Questions to the cart!', {
+                appearance: 'success',
+                autoDismiss: true,
+                pauseOnHover: true,
+            }))
+        // console.log("Arr ",arr)
         setQuestionRandom(arr)
+        _removeAddedQuestion()
     }
 
+    useEffect(()=>{
+        console.log("ques ",questionRandom)
+    },[setQuestionRandom])
     
     return (
       <>
