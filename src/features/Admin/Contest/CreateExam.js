@@ -79,16 +79,23 @@ const CreateExam = ()=>{
         obj["id_user"] = "5fbe1363a76a1f265023c2a0";
         obj["list_can"] = chooseTags;
         createExam(obj)
-        .then(value=>
-            {
-                setFormData(value)
+        .then(res=>{
+            if(res.message){
+                return addToast(res.message, {
+                        appearance: 'error',
+                        autoDismiss: true,
+                        pauseOnHover: true,
+                    })
             }
-        )
-        .then(() => addToast('Create Exam success!', {
-            appearance: 'success',
-            autoDismiss: true,
-            pauseOnHover: true,
-        }))
+            else {
+                addToast('Create Exam success!', {
+                        appearance: 'success',
+                        autoDismiss: true,
+                        pauseOnHover: true,
+                    })
+            }
+         })
+        .then(value=>setFormData(value))
     }
 
     const format = 'HH:mm';
